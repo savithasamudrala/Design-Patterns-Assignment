@@ -28,15 +28,13 @@ public class TextFile {
     public void printMarkdown(){
         String[] options = {"**", "***", "<sub>", "~~","_"};
         Random rng = new Random();
-        int number = rng.nextInt(options.length);
         System.out.println("#" + fileContent.get(0));
 
         for(int i = 1; i < fileContent.size(); i++){
+            int number = rng.nextInt(options.length);
             String option = options[number];
-            System.out.println("<text=" + fileContent.get(i) + ">");
+            System.out.println(option + fileContent.get(i) + option);
         }
-        System.out.println("</head>");
-        System.out.println("</html>");
     }
 
 
