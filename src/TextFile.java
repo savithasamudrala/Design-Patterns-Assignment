@@ -1,12 +1,18 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.IOException;
 
 public class TextFile {
 
     private ArrayList<String> fileContent;
+    private IFormat format;
 
     public TextFile(ArrayList<String> data){
         fileContent = data;
+    }
+
+    public void setFormat(IFormat format){
+        this.format = format;
     }
 
     public void printPlainText(){
@@ -36,6 +42,24 @@ public class TextFile {
             System.out.println(option + fileContent.get(i) + option);
         }
     }
+
+    public void printFormatted(){
+        format.format(fileContent);
+    }
+
+
+    public void save(String filePath) {
+        if (format != null) {
+            try {
+                format.saveToFile(fileContent, filePath);
+            } catch (IOException e) {
+                System.out.println("Error saving file: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No format selected. Cannot save the file.");
+        }
+    }
+
 
 
 
