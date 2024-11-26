@@ -1,4 +1,4 @@
-package text;
+package formatter;
 
 import java.util.ArrayList;
 import java.util.Scanner;

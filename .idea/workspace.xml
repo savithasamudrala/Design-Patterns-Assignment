@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b57a53-bf4c-47e2-909c-c335932f2d23" name="Changes" comment="Fixed markdown format fully implementing user story 3" />
+    <list default="true" id="f4b57a53-bf4c-47e2-909c-c335932f2d23" name="Changes" comment="Put the text formatter code into its own package called &quot;text&quot;">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HTMLFormat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IFormat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/JSONFormat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MarkdownFormat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PlainTextFormat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TextFile.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +22,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -29,12 +39,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -58,12 +68,60 @@
       <option name="project" value="LOCAL" />
       <updated>1731601404032</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Ignoring .class files">
+      <created>1731601718781</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731601718781</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Adding base strategy class Format">
+      <created>1731602218612</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731602218612</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Adding first variant PlainTextFormat">
+      <created>1731602232959</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1731602232959</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Finished implementation of User Story 5: &quot;As a user, I want to save the document in the selected format, so that I can export or publish it with the correct formatting applied.&quot;">
+      <created>1732659864296</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732659864296</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Finished implementation of User Story 6 by adding JSON formatting style">
+      <created>1732660729205</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732660729205</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Put the text formatter code into its own package called &quot;text&quot;">
+      <created>1732662088032</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732662088032</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="User Stories 1 and 2 completed and a bug on user story 3 where output format has html tags" />
     <MESSAGE value="Fixed markdown format fully implementing user story 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed markdown format fully implementing user story 3" />
+    <MESSAGE value="Ignoring .class files" />
+    <MESSAGE value="Adding base strategy class Format" />
+    <MESSAGE value="Adding first variant PlainTextFormat" />
+    <MESSAGE value="Finished implementation of User Story 5: &quot;As a user, I want to save the document in the selected format, so that I can export or publish it with the correct formatting applied.&quot;" />
+    <MESSAGE value="Finished implementation of User Story 6 by adding JSON formatting style" />
+    <MESSAGE value="Put the text formatter code into its own package called &quot;text&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Put the text formatter code into its own package called &quot;text&quot;" />
   </component>
 </project>

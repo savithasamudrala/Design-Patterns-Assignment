@@ -1,4 +1,4 @@
-package text;
+package formatter;
 
 import java.io.FileWriter;
 import java.io.IOException;

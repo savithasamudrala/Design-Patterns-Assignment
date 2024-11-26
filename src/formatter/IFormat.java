@@ -1,4 +1,4 @@
-package text;
+package formatter;
 
 import java.io.IOException;
 import java.util.ArrayList;
