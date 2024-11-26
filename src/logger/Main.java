@@ -13,9 +13,16 @@ public class Main {
         Logger logger = Logger.getInstance();
 
         logger.log("INFO", "Application started");
-        logger.log("DEBUG", "Debugging mode enabled");
-        logger.log("ERROR", "An error occurred");
+        logger.log("DEBUG", "Debugging enabled");
+        logger.log("ERROR", "Error occurred");
 
+        System.out.println("Logs written to logs.txt");
+
+
+        System.out.println("Log History:");
+        for (String log : logger.getLogHistory()) {
+            System.out.println(log);
+        }
 
     }
 }
