@@ -26,17 +26,17 @@ public class Main {
             case 2:
                 file.setFormat(new MarkdownFormat());
                 break;
+            case 3:
+                file.setFormat(new JSONFormat());
+                break;
             default:
                 file.printFormatted();
         }
 
-        // Call the save method after the format has been selected
         saveFile(file);
     }
 
-    /**
-     * Method to prompt the user for a file path and save the formatted content
-     */
+
     private static void saveFile(TextFile file) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the file path to save the document:");
