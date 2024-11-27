@@ -14,26 +14,34 @@ public class RemoteOutput implements LogOutput {
 
     @Override
     public void write(String message) {
-        try {
-            URL url = new URL(serverUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/json");
+        int retries = 3;
+        while (retries > 0) {
+            try {
+                URL url = new URL(serverUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
 
-            String jsonPayload = "{\"log\":\"" + message + "\"}";
+                String jsonPayload = "{\"log\":\"" + message + "\"}";
 
-            try (OutputStream os = connection.getOutputStream()) {
-                os.write(jsonPayload.getBytes());
-                os.flush();
+                try (OutputStream os = connection.getOutputStream()) {
+                    os.write(jsonPayload.getBytes());
+                    os.flush();
+                }
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    return; // Successful log
+                } else {
+                    System.err.println("Failed to send log to server. Response code: " + responseCode);
+                }
+            } catch (IOException e) {
+                System.err.println("Failed to send log to server: " + e.getMessage());
             }
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode != HttpURLConnection.HTTP_OK) {
-                System.err.println("Failed to send log to server. Response code: " + responseCode);
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to send log to server: " + e.getMessage());
+            retries--;
         }
+        System.err.println("Failed to send log after retries.");
     }
+
 }

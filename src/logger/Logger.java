@@ -1,15 +1,10 @@
 package logger;
-import java.util.ArrayList;
-import java.util.List;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.Collections;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import java.util.List;
 
 public class Logger {
     private static Logger instance;
@@ -22,6 +17,7 @@ public class Logger {
         this.logOutput = new ConsoleOutput();
         this.logFormatter = new DefaultLogFormatter();
     }
+
     public static Logger getInstance() {
         if (instance == null) {
             synchronized (Logger.class) {
@@ -41,30 +37,26 @@ public class Logger {
         this.logFormatter = logFormatter;
     }
 
-    private void writeLogs(String message) {
-        try (FileWriter writer = new FileWriter(logFilePath, true)) {
-            writer.write(message + System.lineSeparator());
-        } catch (IOException e) {
-            System.err.println("Failed to write log to file: " + e.getMessage());
-        }
-    }
-
     public void log(String severity, String message) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String logEntry = String.format("[%s] [%s] %s", timestamp, severity, message);
         String formattedMessage = logFormatter.format(severity, message);
-        logHistory.add(logEntry);
-        System.out.println(logEntry);
-        writeLogs(logEntry);
-        logOutput.write(logEntry);
-
-        logHistory.add(formattedMessage);
+        synchronized (logHistory) {
+            logHistory.add(formattedMessage);
+        }
+        writeLogs(formattedMessage);
         logOutput.write(formattedMessage);
     }
 
     public List<String> getLogHistory() {
         synchronized (logHistory) {
-            return new ArrayList<>(logHistory);
+            return Collections.unmodifiableList(logHistory);
+        }
+    }
+
+    private void writeLogs(String message) {
+        try (FileWriter writer = new FileWriter(logFilePath, true)) {
+            writer.write(message + System.lineSeparator());
+        } catch (IOException e) {
+            System.err.println("Failed to write log to file: " + e.getMessage());
         }
     }
 

@@ -2,51 +2,72 @@ package logger;
 
 public class Main {
     public static void main(String[] args) {
-        //Logger logger1 = Logger.getInstance();
-        //Logger logger2 = Logger.getInstance();
-
-        //System.out.println(logger1 == logger2);
-
-        //logger1.log("Logger initialized!");
-
-
         Logger logger = Logger.getInstance();
 
-        logger.log("INFO", "Application started");
-        logger.log("DEBUG", "Debugging enabled");
-        logger.log("ERROR", "Error occurred");
+        System.out.println("=== Testing Logger ===");
+
+        testConsoleLogging(logger);
+
+        testFileLogging(logger);
+
+        testLogArchiving(logger);
+
+        testRemoteLogging(logger);
+
+        testCustomFormatter(logger);
+
+        testRotatingFileLogging(logger);
+
+        testLogHistory(logger);
+
+        System.out.println("=== Testing Complete ===");
+    }
+
+    private static void testConsoleLogging(Logger logger) {
+        System.out.println("\n=== Testing Console Logging ===");
+        logger.setLogOutput(new ConsoleOutput());
+        logger.log("INFO", "Console logging test: Application started");
+        logger.log("DEBUG", "Console logging test: Debugging enabled");
+    }
+
+    private static void testFileLogging(Logger logger) {
+        System.out.println("\n=== Testing File Logging ===");
+        logger.setLogOutput(new FileOutput("test_logs.txt"));
+        logger.log("INFO", "File logging test: Writing to test_logs.txt");
+    }
+
+    private static void testLogArchiving(Logger logger) {
+        System.out.println("\n=== Testing Log Archiving ===");
+        logger.archiveLogs("archived_test_logs.txt", true);
+        logger.log("INFO", "Log archiving test: Archived and cleared");
+    }
+
+    private static void testRemoteLogging(Logger logger) {
+        System.out.println("\n=== Testing Remote Logging ===");
+        logger.setLogOutput(new MockRemoteOutput());
+        logger.log("INFO", "Remote logging test: Logging to a mock server");
+    }
 
 
-        System.out.println("Logs written to logs.txt");
+    private static void testCustomFormatter(Logger logger) {
+        System.out.println("\n=== Testing Custom Formatter ===");
+        logger.setLogFormatter((severity, message) -> String.format("[TEST FORMAT] %s -> %s", severity, message));
+        logger.log("INFO", "Custom formatter test: Using test format");
+    }
 
-        logger.archiveLogs("archived_logs.txt", true);
-        logger.log("INFO", "New log message after archiving");
+    private static void testRotatingFileLogging(Logger logger) {
+        System.out.println("\n=== Testing Rotating File Logging ===");
+        logger.setLogOutput(new RotatingFileOutput("logs/test_rotating", 512)); // Smaller size for test
+        for (int i = 0; i < 20; i++) {
+            logger.log("DEBUG", "Rotating log message #" + i);
+        }
+    }
 
-
-
+    private static void testLogHistory(Logger logger) {
+        System.out.println("\n=== Testing Log History ===");
         System.out.println("Log History:");
         for (String log : logger.getLogHistory()) {
             System.out.println(log);
         }
-
-        logger.log("INFO", "Logging to console by default");
-
-        logger.setLogOutput(new FileOutput("dynamic_logs.txt"));
-        logger.log("DEBUG", "Logging to a file now");
-
-        logger.setLogOutput(new ConsoleOutput());
-        logger.log("ERROR", "Back to logging to the console");
-
-        logger.setLogFormatter((severity, message) -> String.format("[CUSTOM FORMAT] %s: %s", severity, message));
-        logger.log("INFO", "Using a custom formatter now");
-
-        logger.setLogOutput(new RemoteOutput("http://example.com/api/logs"));
-        logger.log("INFO", "Testing remote logging");
-
-        logger.setLogOutput(new RotatingFileOutput("logs/rotating", 1024));
-        for (int i = 0; i < 100; i++) {
-            logger.log("DEBUG", "This is log message number " + i);
-        }
-
     }
 }

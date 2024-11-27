@@ -6,34 +6,52 @@ import java.io.IOException;
 
 public class RotatingFileOutput implements LogOutput {
     private final String baseFilePath;
-    private final int maxFileSizeBytes;
-    private int fileIndex = 0;
+    private final long maxFileSize;
+    private File currentFile;
+    private int fileIndex;
 
-    public RotatingFileOutput(String baseFilePath, int maxFileSizeBytes) {
+    public RotatingFileOutput(String baseFilePath, long maxFileSize) {
         this.baseFilePath = baseFilePath;
-        this.maxFileSizeBytes = maxFileSizeBytes;
+        this.maxFileSize = maxFileSize;
+        this.currentFile = new File(baseFilePath + "_0.log");
+        this.fileIndex = 0;
 
-        File directory = new File(baseFilePath).getParentFile();
-        if (directory != null && !directory.exists()) {
-            directory.mkdirs();
+        if (!currentFile.getParentFile().exists()) {
+            currentFile.getParentFile().mkdirs();
+        }
+
+        try {
+            if (!currentFile.exists()) {
+                currentFile.createNewFile();
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to create initial log file: " + e.getMessage());
         }
     }
 
     @Override
     public void write(String message) {
-        try {
-            File currentFile = new File(baseFilePath + "_" + fileIndex + ".log");
+        try (FileWriter writer = new FileWriter(currentFile, true)) {
+            writer.write(message + System.lineSeparator());
+            System.out.println("[INFO] Log written to rotating file: " + currentFile.getName());
+        } catch (IOException e) {
+            System.err.println("Failed to write log to rotating file: " + e.getMessage());
+        }
+        rotateIfNeeded();
+    }
 
-            if (currentFile.exists() && currentFile.length() > maxFileSizeBytes) {
+    private void rotateIfNeeded() {
+        if (currentFile.length() > maxFileSize) {
+            try {
                 fileIndex++;
                 currentFile = new File(baseFilePath + "_" + fileIndex + ".log");
+                if (!currentFile.exists()) {
+                    currentFile.createNewFile();
+                }
+                System.out.println("[INFO] Rotating log file to: " + currentFile.getName());
+            } catch (IOException e) {
+                System.err.println("Failed to rotate log file: " + e.getMessage());
             }
-
-            try (FileWriter writer = new FileWriter(currentFile, true)) {
-                writer.write(message + System.lineSeparator());
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to write log to file: " + e.getMessage());
         }
     }
 }
