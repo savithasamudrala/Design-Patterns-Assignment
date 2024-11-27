@@ -20,7 +20,7 @@ public class Logger {
 
     public static Logger getInstance() {
         if (instance == null) {
-            synchronized (Logger.class) {
+            synchronized (Logger.class) { //EC: User Story #6
                 if (instance == null) {
                     instance = new Logger();
                 }
