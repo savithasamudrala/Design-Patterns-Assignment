@@ -2,28 +2,21 @@ package system;
 
 public class Main {
     public static void main(String[] args) {
+        NotificationPreferences preferences = new NotificationPreferences();
+
         // Basic Notification
-        Notification basicNotification = new BasicNotification();
-        basicNotification.send("System update available.");
+        preferences.send("Welcome to the notification system!");
 
-        // SMS Notification
-        Notification smsNotification = new SMSNotification(basicNotification);
-        smsNotification.send("System update available.");
+        // Add SMS
+        preferences.addNotificationChannel(new SMSNotification(preferences.getNotificationChain()));
+        preferences.send("You've added SMS notifications.");
 
-        // Email Notification
-        Notification emailNotification = new EmailNotification(basicNotification);
-        emailNotification.send("System update available.");
+        // Add Email
+        preferences.addNotificationChannel(new EmailNotification(preferences.getNotificationChain()));
+        preferences.send("You've added Email notifications.");
 
-        // Slack Notification
-        Notification slackNotification = new SlackNotification(basicNotification);
-        slackNotification.send("System update available.");
-
-        // Combined Notifications: SMS + Email
-        Notification smsAndEmail = new EmailNotification(smsNotification);
-        smsAndEmail.send("Critical system alert!");
-
-        // Combined Notifications: SMS + Email + Slack
-        Notification allNotifications = new SlackNotification(smsAndEmail);
-        allNotifications.send("All hands meeting at 3 PM.");
+        // Add Slack
+        preferences.addNotificationChannel(new SlackNotification(preferences.getNotificationChain()));
+        preferences.send("You've added Slack notifications.");
     }
 }
