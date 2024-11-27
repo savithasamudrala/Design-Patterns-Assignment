@@ -3,7 +3,7 @@ package system;
 public class Main {
     public static void main(String[] args) {
         NotificationPreferences preferences = new NotificationPreferences();
-
+/*
         // Basic Notification
         preferences.send("Welcome to the notification system!");
 
@@ -29,6 +29,33 @@ public class Main {
                 )
         );
         allNotifications.send("New system update!");
+
+        System.out.println("\nNotification History:");
+        for (String notification : preferences.getNotificationHistory()) {
+            System.out.println(notification);
+        }
+
+ */
+
+        SMSNotification sms = new SMSNotification(preferences.getNotificationChain());
+        EmailNotification email = new EmailNotification(sms);
+        SlackNotification slack = new SlackNotification(email);
+        WhatsAppNotification whatsapp = new WhatsAppNotification(slack);
+
+
+        // User Story 10 Testing
+        preferences.addNotificationChannel(whatsapp);
+
+        preferences.send("System maintenance scheduled for tonight.");
+
+        slack.setEnabled(false);
+        whatsapp.setEnabled(false);
+
+        preferences.send("System maintenance rescheduled to tomorrow.");
+
+        slack.setEnabled(true);
+
+        preferences.send("System maintenance confirmed for tomorrow at midnight.");
 
     }
 }

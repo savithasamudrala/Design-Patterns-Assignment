@@ -2,6 +2,7 @@ package system;
 
 public class WhatsAppNotification implements Notification {
     private final Notification wrappedNotification;
+    private boolean enabled = true;
 
     public WhatsAppNotification(Notification notification) {
         this.wrappedNotification = notification;
@@ -10,6 +11,12 @@ public class WhatsAppNotification implements Notification {
     @Override
     public void send(String message) {
         wrappedNotification.send(message);
-        System.out.println("WhatsApp Notification: Sending '" + message + "' via WhatsApp.");
+        if (enabled) {
+            System.out.println("WhatsApp Notification: Sending '" + message + "' via WhatsApp.");
+        }
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
