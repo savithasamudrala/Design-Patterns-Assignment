@@ -18,5 +18,17 @@ public class Main {
         // Add Slack
         preferences.addNotificationChannel(new SlackNotification(preferences.getNotificationChain()));
         preferences.send("You've added Slack notifications.");
+
+        // Add WhatsApp
+        preferences.addNotificationChannel(new WhatsAppNotification(preferences.getNotificationChain()));
+        preferences.send("You've added WhatsApp notifications.");
+
+        Notification allNotifications = new SlackNotification(
+                new EmailNotification(
+                        new SMSNotification(new BasicNotification())
+                )
+        );
+        allNotifications.send("New system update!");
+
     }
 }
