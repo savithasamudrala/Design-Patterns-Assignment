@@ -12,6 +12,11 @@ public class RotatingFileOutput implements LogOutput {
     public RotatingFileOutput(String baseFilePath, int maxFileSizeBytes) {
         this.baseFilePath = baseFilePath;
         this.maxFileSizeBytes = maxFileSizeBytes;
+
+        File directory = new File(baseFilePath).getParentFile();
+        if (directory != null && !directory.exists()) {
+            directory.mkdirs();
+        }
     }
 
     @Override
