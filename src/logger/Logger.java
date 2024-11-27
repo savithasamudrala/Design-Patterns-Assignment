@@ -14,11 +14,13 @@ import java.util.Date;
 public class Logger {
     private static Logger instance;
     private LogOutput logOutput;
+    private LogFormatter logFormatter;
     private final List<String> logHistory = new ArrayList<>();
     private final String logFilePath = "logs.txt";
 
     private Logger() {
         this.logOutput = new ConsoleOutput();
+        this.logFormatter = new DefaultLogFormatter();
     }
     public static Logger getInstance() {
         if (instance == null) {
@@ -35,6 +37,10 @@ public class Logger {
         this.logOutput = logOutput;
     }
 
+    public void setLogFormatter(LogFormatter logFormatter) {
+        this.logFormatter = logFormatter;
+    }
+
     private void writeLogs(String message) {
         try (FileWriter writer = new FileWriter(logFilePath, true)) {
             writer.write(message + System.lineSeparator());
@@ -46,10 +52,14 @@ public class Logger {
     public void log(String severity, String message) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String logEntry = String.format("[%s] [%s] %s", timestamp, severity, message);
+        String formattedMessage = logFormatter.format(severity, message);
         logHistory.add(logEntry);
         System.out.println(logEntry);
         writeLogs(logEntry);
         logOutput.write(logEntry);
+
+        logHistory.add(formattedMessage);
+        logOutput.write(formattedMessage);
     }
 
     public List<String> getLogHistory() {

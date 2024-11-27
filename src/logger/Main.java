@@ -36,5 +36,17 @@ public class Main {
 
         logger.setLogOutput(new ConsoleOutput());
         logger.log("ERROR", "Back to logging to the console");
+
+        logger.setLogFormatter((severity, message) -> String.format("[CUSTOM FORMAT] %s: %s", severity, message));
+        logger.log("INFO", "Using a custom formatter now");
+
+        logger.setLogOutput(new RemoteOutput("http://example.com/api/logs"));
+        logger.log("INFO", "Testing remote logging");
+
+        logger.setLogOutput(new RotatingFileOutput("logs/rotating", 1024));
+        for (int i = 0; i < 100; i++) {
+            logger.log("DEBUG", "This is log message number " + i);
+        }
+
     }
 }
